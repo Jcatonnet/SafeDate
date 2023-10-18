@@ -5,15 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setDateMateName, selectFormData } from '../utils/formDataSlice';
 
 
-export const DateMateName = ({ route }: any) => {
+export const DateMateName = ({ navigation }: any) => {
   const [dateMateName, setdateMateName] = useState('');
   const dispatch = useDispatch();
-  const formData = useSelector(selectFormData);
 
 
   const handleNext = () => {
     dispatch(setDateMateName(dateMateName));
-    console.log(formData);
+    navigation.navigate('ActivityPage');
   };
   
 

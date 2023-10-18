@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
       marginBottom: 30,
       backgroundColor: "#29B7AE",
       height: "14%",
-      paddingTop: 40,
+      paddingTop: 50,
       paddingRight: 15,
       paddingLeft: 15,
       paddingBottom: 15

@@ -4,7 +4,8 @@ export const formDataSlice = createSlice({
   name: 'formData',
   initialState: {
     dateTitle: '',
-    dateMateName: ''
+    dateMateName: '',
+    activityName: ''
   },
   reducers: {
     setDateTitle: (state, action) => {
@@ -12,11 +13,14 @@ export const formDataSlice = createSlice({
     },
     setDateMateName: (state, action) => {
       state.dateMateName = action.payload;
+    },
+    setActivityName: (state, action) => {
+      state.activityName = action.payload;
     }
   }
 });
 
-export const { setDateTitle, setDateMateName } = formDataSlice.actions;
+export const { setDateTitle, setDateMateName, setActivityName } = formDataSlice.actions;
 
 export const selectFormData = state => state.formData;
 
