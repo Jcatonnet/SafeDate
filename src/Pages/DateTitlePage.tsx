@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import DateImage from '../assets/dating.png';
 
 
-export const DateTitle = () => {
+export const DateTitle = ({ navigation }: any) => {
   const [dateTitle, setdateTitle] = useState('');
 
   return (
@@ -19,8 +19,11 @@ export const DateTitle = () => {
       />
       <Image style={styles.image} source={DateImage}></Image>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Save</Text>
+      <TouchableOpacity         
+        onPress={() => {
+          navigation.navigate('DateMateName');
+        }} style={styles.button}>
+        <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
   );
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    backgroundColor: 'turquoise',
+    backgroundColor: '#29B7AE',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
@@ -58,8 +61,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   image: {
-    width: "70%",
-    height: "50%",
+    width: "50%",
+    height: "40%",
     marginBottom: 50
   }
 });

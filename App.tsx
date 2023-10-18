@@ -1,16 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Header } from './src/Components/Header';
-import { DateTitle } from './src/Pages/DateTitle';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/utils/AppNavigator';
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'white',
+  },
+};
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.body}>
-      <DateTitle></DateTitle>
+        <NavigationContainer theme={MyTheme}>
+          <AppNavigator />
+        </NavigationContainer>
       </View>
-      
     </View>
   );
 }
@@ -20,8 +29,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-
   body: {
-    padding: 20
+    flex: 1,
+    padding: 20,
   }
 });
