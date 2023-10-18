@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import DateImage from '../assets/dating.png';
-
+import { useDispatch } from 'react-redux';
+import { setDateTitle } from '../utils/formDataSlice';
 
 export const DateTitle = ({ navigation }: any) => {
   const [dateTitle, setdateTitle] = useState('');
+  const dispatch = useDispatch();
+
+  const handleNextPress = () => {
+    dispatch(setDateTitle(dateTitle));
+    navigation.navigate('DateMateName');
+  };
 
   return (
     <View style={styles.pageContainer}>
@@ -19,10 +26,8 @@ export const DateTitle = ({ navigation }: any) => {
       />
       <Image style={styles.image} source={DateImage}></Image>
 
-      <TouchableOpacity         
-        onPress={() => {
-          navigation.navigate('DateMateName');
-        }} style={styles.button}>
+      <TouchableOpacity
+        onPress={handleNextPress} style={styles.button}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>

@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import DateMateImage from '../assets/role-model.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDateMateName, selectFormData } from '../utils/formDataSlice';
 
 
-
-export const DateMateName = () => {
+export const DateMateName = ({ route }: any) => {
   const [dateMateName, setdateMateName] = useState('');
+  const dispatch = useDispatch();
+  const formData = useSelector(selectFormData);
+
+
+  const handleNext = () => {
+    dispatch(setDateMateName(dateMateName));
+    console.log(formData);
+  };
+  
 
   return (
     <View style={styles.pageContainer}>
@@ -20,7 +30,7 @@ export const DateMateName = () => {
       />
       <Image style={styles.image} source={DateMateImage}></Image>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
