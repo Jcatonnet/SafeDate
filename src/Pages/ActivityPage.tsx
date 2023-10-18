@@ -1,6 +1,6 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import {  useDispatch, useSelector } from 'react-redux';
-import { selectFormData, setActivityName } from '../utils/formDataSlice';
+import { View, Text, StyleSheet } from 'react-native';
+import {  useDispatch } from 'react-redux';
+import { setActivityName } from '../utils/formDataSlice';
 import { ActivityButton } from '../Components/ActivityButton';
 import CocktailIcon from "../assets/cocktail.png"
 import GoOnTour from "../assets/destination.png"
@@ -9,21 +9,19 @@ import Surprise from "../assets/surprise.png"
 import { useState } from 'react';
 import { AppDispatch } from '../utils/store';
 
-export const ActivityPage = () => {
-    const formData = useSelector(selectFormData);
+export const ActivityPage = ({navigation}: any) => {
     const [selectedActivity, setSelectedActivity] = useState('');
     const dispatch: AppDispatch = useDispatch();
 
  const handlePress = (selectedActivityName: string) => {
     setSelectedActivity(selectedActivityName)
     dispatch(setActivityName(selectedActivityName));
-    console.log(formData)
+    navigation.navigate('DateTimePage');
  }
 
     return (
         <View style={styles.pageContainer}>
 
-        <Text style={styles.subtitle}> 🍑 Ouuuh lucky you, time to set up your date 🔥 </Text>
         <View style={styles.info}>
         <Text style={styles.subtitle}> Initial date plan: </Text>
         </View>
@@ -38,6 +36,7 @@ export const ActivityPage = () => {
 const styles = StyleSheet.create({
     pageContainer: {
         alignItems: 'center',
+        marginTop: 30
         
     },
   subtitle: {

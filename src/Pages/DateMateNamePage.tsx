@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import DateMateImage from '../assets/role-model.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { setDateMateName, selectFormData } from '../utils/formDataSlice';
+import { useDispatch } from 'react-redux';
+import { setDateMateName } from '../utils/formDataSlice';
 
 
 export const DateMateName = ({ navigation }: any) => {
@@ -18,8 +18,6 @@ export const DateMateName = ({ navigation }: any) => {
 
   return (
     <View style={styles.pageContainer}>
-
-      <Text style={styles.subtitle}> 🍑 Ouuuh lucky you, time to set up your date 🔥 </Text>
 
       <TextInput
         value={dateMateName}
@@ -39,7 +37,7 @@ export const DateMateName = ({ navigation }: any) => {
 const styles = StyleSheet.create({
     pageContainer: {
         alignItems: 'center',
-        
+        marginTop: 30        
     },
   subtitle: {
     fontSize: 16,
