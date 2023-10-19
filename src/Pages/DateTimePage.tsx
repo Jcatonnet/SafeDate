@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setStartTime, selectFormData, setEndTime } from '../utils/formDataSlice';
+import { useDispatch } from 'react-redux';
+import { setStartTime, setEndTime } from '../utils/formDataSlice';
 import { SelectTimePicker } from '../Components/TimePicker';
 import { AppDispatch } from '../utils/store';
 

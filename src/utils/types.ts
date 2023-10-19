@@ -16,6 +16,9 @@ export interface FormDataState {
     dateTimeStart: string | null;
     dateTimeEnd: string | null;
     activityName: string; 
+    probability: number;
+    peachGuardName: string;
+    peachGuardPhone: string
   }
   
   export interface RootState {

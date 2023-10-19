@@ -6,7 +6,10 @@ const initialState: FormDataState = {
   dateMateName: '',
   dateTimeStart: null,
   dateTimeEnd: null,
-  activityName: ''
+  activityName: '',
+  probability: 0,
+  peachGuardName: '',
+  peachGuardPhone: ''
 };
 
 export const formDataSlice = createSlice({
@@ -28,10 +31,19 @@ export const formDataSlice = createSlice({
     setEndTime: (state: FormDataState, action: PayloadAction<string>) => {
       state.dateTimeEnd = action.payload;
     },
+    setProbability: (state: FormDataState, action: PayloadAction<number>) => {
+      state.probability = action.payload;
+    },
+    setPeachGuard: (state: FormDataState, action: PayloadAction<string>) => {
+      state.peachGuardName = action.payload;
+    },
+    setPeachGuardPhone: (state: FormDataState, action: PayloadAction<string>) => {
+      state.peachGuardPhone = action.payload;
+    },
   }
 });
 
-export const { setDateTitle, setDateMateName, setActivityName, setStartTime, setEndTime } = formDataSlice.actions;
+export const { setDateTitle, setDateMateName, setActivityName, setStartTime, setEndTime, setProbability, setPeachGuard, setPeachGuardPhone } = formDataSlice.actions;
 
 export const selectFormData = (state: RootState) => state.formData;
 

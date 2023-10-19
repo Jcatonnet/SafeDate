@@ -1,31 +1,36 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFormData, setDateMateName } from '../utils/formDataSlice';
+import { useDispatch } from 'react-redux';
+import { setProbability } from '../utils/formDataSlice';
 import { SliderScreen } from '../Components/Slider/Slider';
+import { AppDispatch } from '../utils/store';
 
 export const ProbabilityPage = ({ navigation }: any) => {
-  const dispatch = useDispatch();
-  const formData = useSelector(selectFormData);
-  console.log("data", formData)
+  const [selectedProbility, setSelectedProbability] = useState<number>(0)
+  const dispatch: AppDispatch = useDispatch();
 
   const handleNext = () => {
-
-    console.log("data", formData)
+    dispatch(setProbability(selectedProbility));
+    navigation.navigate('PeachGuardPage');
   };
-  
+
+  const handleChange = useCallback((lowValue: number) => {
+    setSelectedProbability(lowValue);
+  }, []);
 
   return (
     <View style={styles.pageContainer}>
-              <View style={styles.info}>
-      <Text style={styles.subtitle}> Probability to slide into a more 🔥🔥 plan... </Text>
+      <View style={styles.info}>
+        <Text style={styles.subtitle}>Probability to slide into a more 🔥🔥 plan...</Text>
       </View>
 
-    <SliderScreen />
+    <SliderScreen onValueChange={handleChange}/>
 
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
+    <Text style={styles.subtitle}>Hey girl, this is informative for now... We will ask you for an update during your date, so your 🍑 guard will know</Text>
+
+    <TouchableOpacity style={styles.button} onPress={handleNext}>
+      <Text style={styles.buttonText}>Next</Text>
+    </TouchableOpacity>
     </View>
   );
 };

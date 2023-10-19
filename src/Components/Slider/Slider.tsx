@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Slider from 'rn-range-slider';
 import Thumb from './Thumb';
 import Rail from './Rail';
@@ -7,22 +7,18 @@ import RailSelected from './RailSelected';
 import Label from './Label';
 import Notch from './Notch';
 
-export const SliderScreen = () => {
-  const [rangeDisabled, setRangeDisabled] = useState(false);
-  const [high, setHigh] = useState(100);
+export const SliderScreen =  ({onValueChange, probability}: any) => {
+  // const [high, setHigh] = useState(100);
   const [floatingLabel, setFloatingLabel] = useState(false);
 
-  const renderThumb = useCallback(
-    (name: 'high' | 'low') => <Thumb/>,
-    [],
-  );
+  const renderThumb = useCallback(() => <Thumb/>,[]);
   const renderRail = useCallback(() => <Rail />, []);
   const renderRailSelected = useCallback(() => <RailSelected />, []);
   const renderLabel = useCallback((value: number) => <Label text={value} />, []);
   const renderNotch = useCallback(() => <Notch />, []);
-  const handleValueChange = useCallback((lowValue: number, highValue: number) => {
-    setHigh(highValue);
-  }, []);
+  // const handleValueChange = useCallback((lowValue: number, highValue: number) => {
+  //   setHigh(highValue);
+  // }, []);
 
   return (
 
@@ -39,11 +35,11 @@ export const SliderScreen = () => {
           renderRailSelected={renderRailSelected}
           renderLabel={renderLabel}
           renderNotch={renderNotch}
-          onValueChanged={handleValueChange}
+          onValueChanged={onValueChange}
         />
         <View style={styles.horizontalContainer}>
           <Text style={styles.valueText}>{0}</Text>
-          <Text style={styles.valueText}>{high}</Text>
+          <Text style={styles.valueText}>{100}</Text>
         </View>
       </View>
 
