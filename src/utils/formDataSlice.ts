@@ -26,7 +26,7 @@ export const formDataSlice = createSlice({
       state.dateTimeStart = action.payload;
     },
     setEndTime: (state: FormDataState, action: PayloadAction<string>) => {
-      state.dateTimeStart = action.payload;
+      state.dateTimeEnd = action.payload;
     },
   }
 });

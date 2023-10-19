@@ -1,30 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import DateMateImage from '../assets/role-model.png';
-import { useDispatch } from 'react-redux';
-import { setDateMateName } from '../utils/formDataSlice';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFormData, setDateMateName } from '../utils/formDataSlice';
+import { SliderScreen } from '../Components/Slider/Slider';
 
-
-export const DateMateName = ({ navigation }: any) => {
-  const [dateMateName, setdateMateName] = useState('');
+export const ProbabilityPage = ({ navigation }: any) => {
   const dispatch = useDispatch();
+  const formData = useSelector(selectFormData);
+  console.log("data", formData)
 
   const handleNext = () => {
-    dispatch(setDateMateName(dateMateName));
-    navigation.navigate('ActivityPage');
+
+    console.log("data", formData)
   };
   
 
   return (
     <View style={styles.pageContainer}>
+              <View style={styles.info}>
+      <Text style={styles.subtitle}> Probability to slide into a more 🔥🔥 plan... </Text>
+      </View>
 
-      <TextInput
-        value={dateMateName}
-        onChangeText={setdateMateName}
-        placeholder="Name of the 🍆"
-        style={styles.input}
-      />
-      <Image style={styles.image} source={DateMateImage}></Image>
+    <SliderScreen />
 
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
@@ -44,14 +41,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     color: '#29B7AE'
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 50,
-    fontSize: 16,
-    width: "100%",
+  info: {
+    alignSelf: 'stretch', 
+    alignItems: 'flex-start',
+    paddingHorizontal: 15 
   },
   button: {
     backgroundColor: '#29B7AE',

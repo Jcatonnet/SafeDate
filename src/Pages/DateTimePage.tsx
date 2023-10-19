@@ -6,18 +6,17 @@ import { SelectTimePicker } from '../Components/TimePicker';
 import { AppDispatch } from '../utils/store';
 
 
-export const DateTimePage = () => {
+export const DateTimePage = ({ navigation }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [dateTimeStart, setDateTimeStart] = useState(new Date(1598051730000));
   const [dateTimeEnd, setDateTimeEnd] = useState(new Date(1598051730000));
 
 
-  const formData = useSelector(selectFormData);
 
   const handleNext = () => {
     dispatch(setStartTime(dateTimeStart.toISOString()));
     dispatch(setEndTime(dateTimeEnd.toISOString()));
-    console.log("data", formData)
+    navigation.navigate('ProbabilityPage');
   };
   
   const onChangeStart = (event: any, selectedDate: any) => {
@@ -26,8 +25,8 @@ export const DateTimePage = () => {
   };
 
   const onChangeEnd = (event: any, selectedDate: any) => {
-    const currentDate = new Date(selectedDate)
-    setDateTimeEnd(currentDate);
+    const currentDateEnd = new Date(selectedDate)
+    setDateTimeEnd(currentDateEnd);
   };
 
   return (
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
   info: {
       alignSelf: 'stretch',
       alignItems: 'center',  // This centers the TimePicker
-      marginBottom: 20,
+      marginBottom: 50,
   },
   input: {
       borderWidth: 1,
