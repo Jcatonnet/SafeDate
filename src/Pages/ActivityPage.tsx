@@ -8,12 +8,13 @@ import Smirking from "../assets/smirking.png"
 import Surprise from "../assets/surprise.png"
 import { useState } from 'react';
 import { AppDispatch } from '../utils/store';
+import { ActivityName } from '../utils/types';
 
 export const ActivityPage = ({navigation}: any) => {
     const [selectedActivity, setSelectedActivity] = useState('');
     const dispatch: AppDispatch = useDispatch();
 
- const handlePress = (selectedActivityName: string) => {
+ const handlePress = (selectedActivityName: ActivityName) => {
     setSelectedActivity(selectedActivityName)
     dispatch(setActivityName(selectedActivityName));
     navigation.navigate('DateTimePage');

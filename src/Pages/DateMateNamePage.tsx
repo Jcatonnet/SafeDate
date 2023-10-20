@@ -19,7 +19,6 @@ export const DateMateName = ({ navigation }: any) => {
     navigation.navigate('ActivityPage');
   };
   
-
   return (
     <View style={styles.pageContainer}>
 
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#29B7AE',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
-    width: "100%",
+    width: "70%",
   },
   buttonText: {
     color: 'white',

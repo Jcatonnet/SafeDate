@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native"
+import { View, StyleSheet, Text, Image, TouchableOpacity, Linking } from "react-native"
 import { useSelector } from "react-redux";
 import { selectFormData } from "../utils/formDataSlice";
 import CocktailIcon from "../assets/cocktail.png"
@@ -18,6 +18,7 @@ export const SumUpPage = () => {
     const formData = useSelector(selectFormData);
     const dateTimeStartFormated = dateFormat(formData.dateTimeStart);
     const dateTimeEndFormated = dateFormat(formData.dateTimeEnd)
+    const whatsappMessage = 'test whatsapp de bae poour bae'
 
 const ICON_MAPPING: IconMappingType = {
     "Meet at a bar/restaurant": CocktailIcon,
@@ -28,11 +29,18 @@ const ICON_MAPPING: IconMappingType = {
 };
 
     const activityIcon = ICON_MAPPING[formData.activityName];
-
+    
     const handleSend = () => {
-        console.log(formData)
-    }
-
+      Linking.openURL(`https://web.whatsapp.com/send?phone=${formData.peachGuardPhone}&text=${encodeURI(whatsappMessage)}&app_absent=0`)
+        .then(() => {
+          console.log("WhatsApp Opened Successfully");
+        })
+        .catch((err) => {
+          alert('Error opening WhatsApp. Make sure it.');
+          console.error(err);
+        });
+    };
+    
     return (
       <View style={styles.pageContainer}>
         <Text style={styles.subtitle}>🍑 You’re all set ! We will wrap this up for you and share it with your 🍑 guard 🔥</Text>
@@ -116,7 +124,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
-    width: "100%",
+    width: "70%",
   },
   buttonText: {
     color: 'white',

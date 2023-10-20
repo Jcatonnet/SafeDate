@@ -86,15 +86,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',  // This centers the TimePicker
       marginBottom: 50,
   },
-  input: {
-      borderWidth: 1,
-      borderColor: '#ddd',
-      borderRadius: 5,
-      padding: 10,
-      marginBottom: 50,
-      fontSize: 16,
-      width: "100%",
-  },
   errorText: {
     color: 'red',
     textAlign: "left",
@@ -109,7 +100,7 @@ const styles = StyleSheet.create({
       padding: 15,
       borderRadius: 5,
       alignItems: 'center',
-      width: "100%",
+      width: "70%",
       marginTop: 20
   },
   buttonText: {
