@@ -6,9 +6,15 @@ import { setDateTitle } from '../utils/formDataSlice';
 
 export const DateTitle = ({ navigation }: any) => {
   const [dateTitle, setdateTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const dispatch = useDispatch();
 
   const handleNextPress = () => {
+    if (dateTitle.trim() === '') {
+      setErrorMessage('Please enter a title for your date.');
+      return;
+    }
     dispatch(setDateTitle(dateTitle));
     navigation.navigate('DateMateName');
   };
@@ -20,10 +26,18 @@ export const DateTitle = ({ navigation }: any) => {
 
       <TextInput
         value={dateTitle}
-        onChangeText={setdateTitle}
+        onChangeText={(text) => {
+          setdateTitle(text);
+          setErrorMessage(null);
+        }}
         placeholder="Enter a title for this crazy adventure"
         style={styles.input}
       />
+      {errorMessage && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
+      )}
       <Image style={styles.image} source={DateImage}></Image>
 
       <TouchableOpacity
@@ -51,9 +65,18 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 5,
     padding: 10,
-    marginBottom: 50,
     fontSize: 16,
     width: "100%",
+    marginBottom: 10
+  },
+  errorText: {
+    color: 'red',
+    textAlign: "left",
+    marginLeft: 10
+  },
+  errorContainer: {
+    alignSelf: 'stretch', 
+    marginLeft: 5,
   },
   button: {
     backgroundColor: '#29B7AE',
@@ -69,6 +92,7 @@ const styles = StyleSheet.create({
   image: {
     width: "50%",
     height: "40%",
-    marginBottom: 50
+    marginBottom: 50,
+    marginTop: 40
   }
 });

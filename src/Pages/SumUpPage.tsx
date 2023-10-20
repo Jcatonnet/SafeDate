@@ -23,10 +23,11 @@ const ICON_MAPPING: IconMappingType = {
     "Meet at a bar/restaurant": CocktailIcon,
     "Go on a tour": GoOnTour,
     "Go to his place": Smirking,
-    "No plan is the best plan": Surprise
+    "No plan is the best plan": Surprise,
+    "": CocktailIcon
 };
 
-    const activityIcon = ICON_MAPPING[formData.activityName] || CocktailIcon;
+    const activityIcon = ICON_MAPPING[formData.activityName];
 
     const handleSend = () => {
         console.log(formData)
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#29B7AE',
     flexShrink: 1

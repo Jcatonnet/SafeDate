@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { FormDataState, RootState } from './types';
+import { ActivityName, FormDataState, RootState } from './types';
 
 const initialState: FormDataState = {
   dateTitle: '',
@@ -22,7 +22,7 @@ export const formDataSlice = createSlice({
     setDateMateName: (state: FormDataState, action: PayloadAction<string>) => {
       state.dateMateName = action.payload;
     },
-    setActivityName: (state: FormDataState, action: PayloadAction<string>) => {
+    setActivityName: (state: FormDataState, action: PayloadAction<ActivityName>) => {
       state.activityName = action.payload;
     },
     setStartTime: (state: FormDataState, action: PayloadAction<string>) => {

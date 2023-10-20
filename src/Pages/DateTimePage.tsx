@@ -4,18 +4,29 @@ import { useDispatch } from 'react-redux';
 import { setStartTime, setEndTime } from '../utils/formDataSlice';
 import { SelectTimePicker } from '../Components/TimePicker';
 import { AppDispatch } from '../utils/store';
+import { setByTimezone } from '../utils/dateTransformer';
 
 
 export const DateTimePage = ({ navigation }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [dateTimeStart, setDateTimeStart] = useState(new Date(1598051730000));
-  const [dateTimeEnd, setDateTimeEnd] = useState(new Date(1598051730000));
 
+  const now = new Date();
+  const nowAndFourHoursLater = new Date(now.getTime() + 4 * 60 * 60 * 1000);  
+  const [dateTimeStart, setDateTimeStart] = useState(now);
+  const [dateTimeEnd, setDateTimeEnd] = useState(nowAndFourHoursLater);
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 
   const handleNext = () => {
-    dispatch(setStartTime(dateTimeStart.toISOString()));
-    dispatch(setEndTime(dateTimeEnd.toISOString()));
+    if (dateTimeEnd <=  dateTimeStart) {
+      setErrorMessage('End time should be superior to start time');
+      return;
+    }
+    const startTimeTimezoned = setByTimezone(dateTimeStart);
+    const endTimeTimezoned = setByTimezone(dateTimeEnd);
+    dispatch(setStartTime(startTimeTimezoned.toISOString()));
+    dispatch(setEndTime(endTimeTimezoned.toISOString()));
     navigation.navigate('ProbabilityPage');
   };
   
@@ -25,6 +36,7 @@ export const DateTimePage = ({ navigation }: any) => {
   };
 
   const onChangeEnd = (event: any, selectedDate: any) => {
+    setErrorMessage(null)
     const currentDateEnd = new Date(selectedDate)
     setDateTimeEnd(currentDateEnd);
   };
@@ -41,6 +53,11 @@ export const DateTimePage = ({ navigation }: any) => {
         <Text style={styles.subtitle}> I plan to go back home at: (if we stick to the plan...) </Text>
         <SelectTimePicker onChange={onChangeEnd} date={dateTimeEnd} ></SelectTimePicker>
       </View>
+      {errorMessage && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
+      )}
 
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
@@ -77,6 +94,15 @@ const styles = StyleSheet.create({
       marginBottom: 50,
       fontSize: 16,
       width: "100%",
+  },
+  errorText: {
+    color: 'red',
+    textAlign: "left",
+    marginLeft: 10
+  },
+  errorContainer: {
+    alignSelf: 'stretch', 
+    marginLeft: 5,
   },
   button: {
       backgroundColor: '#29B7AE',

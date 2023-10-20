@@ -5,7 +5,9 @@ export type ActivityName =
 | "Meet at a bar/restaurant"
 | "Go on a tour"
 | "Go to his place"
-| "No plan is the best plan";
+| "No plan is the best plan"
+| ""
+;
 
 export type IconMappingType = {
   [key in ActivityName]: ImageSourcePropType; 

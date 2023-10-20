@@ -7,10 +7,15 @@ import { setPeachGuard, setPeachGuardPhone} from '../utils/formDataSlice';
 export const PeachGuardPage = ({navigation}: any) => {
   const [peachGuardName, setPeachGuardName] = useState('');
   const [peachGuardNumber, setPeachGuardNumber] = useState('')
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const dispatch = useDispatch();
 
 
   const handleNext = () => {
+    if (peachGuardName.trim() === '') {
+      setErrorMessage('Please indicate your peach guard\'s name');
+      return;
+    }
     dispatch(setPeachGuard(peachGuardName));
     dispatch(setPeachGuardPhone(peachGuardNumber));
     navigation.navigate("SumUpPage")
@@ -23,17 +28,25 @@ export const PeachGuardPage = ({navigation}: any) => {
 
       <TextInput
         value={peachGuardName}
-        onChangeText={setPeachGuardName}
+        onChangeText={(text) => {
+          setPeachGuardName(text);
+          setErrorMessage(null);
+        }}
         placeholder="Select your peach guard"
         style={styles.input}
       />
         
-        <TextInput
+      <TextInput
         value={peachGuardNumber}
         onChangeText={setPeachGuardNumber}
         placeholder="Enter peach guard phone number"
         style={styles.input}
       />
+      {errorMessage && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
+      )}
       <Image style={styles.image} source={PeachGuardIcon}></Image>
 
       <TouchableOpacity style={styles.button} onPress={handleNext}>
@@ -59,9 +72,18 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 5,
     padding: 10,
-    marginBottom: 50,
+    marginBottom: 10,
     fontSize: 16,
     width: "100%",
+  },
+  errorText: {
+    color: 'red',
+    textAlign: "left",
+    marginLeft: 10
+  },
+  errorContainer: {
+    alignSelf: 'stretch', 
+    marginLeft: 5,
   },
   button: {
     backgroundColor: '#29B7AE',
@@ -77,6 +99,7 @@ const styles = StyleSheet.create({
   image: {
     width: "50%",
     height: "40%",
-    marginBottom: 50
+    marginBottom: 50,
+    marginTop: 50
   }
 });

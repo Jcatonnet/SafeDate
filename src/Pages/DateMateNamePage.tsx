@@ -7,9 +7,14 @@ import { setDateMateName } from '../utils/formDataSlice';
 
 export const DateMateName = ({ navigation }: any) => {
   const [dateMateName, setdateMateName] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   const handleNext = () => {
+    if (dateMateName.trim() === '') {
+      setErrorMessage('Please give us your date name');
+      return;
+    }
     dispatch(setDateMateName(dateMateName));
     navigation.navigate('ActivityPage');
   };
@@ -20,10 +25,18 @@ export const DateMateName = ({ navigation }: any) => {
 
       <TextInput
         value={dateMateName}
-        onChangeText={setdateMateName}
+        onChangeText={(text) => {
+          setdateMateName(text);
+          setErrorMessage(null);
+        }}
         placeholder="Name of the 🍆"
         style={styles.input}
       />
+      {errorMessage && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
+      )}
       <Image style={styles.image} source={DateMateImage}></Image>
 
       <TouchableOpacity style={styles.button} onPress={handleNext}>
@@ -49,9 +62,18 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 5,
     padding: 10,
-    marginBottom: 50,
+    marginBottom: 10,
     fontSize: 16,
     width: "100%",
+  },
+  errorText: {
+    color: 'red',
+    textAlign: "left",
+    marginLeft: 10
+  },
+  errorContainer: {
+    alignSelf: 'stretch', 
+    marginLeft: 5,
   },
   button: {
     backgroundColor: '#29B7AE',
@@ -67,6 +89,7 @@ const styles = StyleSheet.create({
   image: {
     width: "50%",
     height: "40%",
-    marginBottom: 50
+    marginBottom: 50,
+    marginTop: 40
   }
 });
