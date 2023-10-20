@@ -6,6 +6,7 @@ import { ActivityPage } from '../Pages/ActivityPage';
 import { DateTimePage } from '../Pages/DateTimePage';
 import { ProbabilityPage } from '../Pages/ProbabilityPage';
 import { PeachGuardPage } from '../Pages/PeachGuardPage';
+import { SumUpPage } from '../Pages/SumUpPage';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ function AppNavigator() {
       <Stack.Screen   options={{ title: 'Step 4 of 6' }} name="DateTimePage" component={DateTimePage} />
       <Stack.Screen   options={{ title: 'Step 5 of 6' }} name="ProbabilityPage" component={ProbabilityPage} />
       <Stack.Screen   options={{ title: 'Step 6 of 6' }} name="PeachGuardPage" component={PeachGuardPage} />
+      <Stack.Screen   options={{ title: 'Step 6 of 6' }} name="SumUpPage" component={SumUpPage} />
     </Stack.Navigator>
   );
 }

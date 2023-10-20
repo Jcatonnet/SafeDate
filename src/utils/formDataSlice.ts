@@ -4,8 +4,8 @@ import { FormDataState, RootState } from './types';
 const initialState: FormDataState = {
   dateTitle: '',
   dateMateName: '',
-  dateTimeStart: null,
-  dateTimeEnd: null,
+  dateTimeStart: '',
+  dateTimeEnd: '',
   activityName: '',
   probability: 0,
   peachGuardName: '',

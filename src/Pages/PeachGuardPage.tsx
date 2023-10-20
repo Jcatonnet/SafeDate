@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import DateMateImage from '../assets/role-model.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFormData, setPeachGuard, setPeachGuardPhone} from '../utils/formDataSlice';
+import PeachGuardIcon from '../assets/security-guard.png';
+import { useDispatch } from 'react-redux';
+import { setPeachGuard, setPeachGuardPhone} from '../utils/formDataSlice';
 
-export const PeachGuardPage = () => {
+export const PeachGuardPage = ({navigation}: any) => {
   const [peachGuardName, setPeachGuardName] = useState('');
   const [peachGuardNumber, setPeachGuardNumber] = useState('')
   const dispatch = useDispatch();
-  const formData = useSelector(selectFormData);
 
 
   const handleNext = () => {
     dispatch(setPeachGuard(peachGuardName));
     dispatch(setPeachGuardPhone(peachGuardNumber));
-    console.log("data", formData)
+    navigation.navigate("SumUpPage")
 
   };
   
@@ -35,7 +34,7 @@ export const PeachGuardPage = () => {
         placeholder="Enter peach guard phone number"
         style={styles.input}
       />
-      <Image style={styles.image} source={DateMateImage}></Image>
+      <Image style={styles.image} source={PeachGuardIcon}></Image>
 
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>

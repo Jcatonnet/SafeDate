@@ -7,7 +7,7 @@ import RailSelected from './RailSelected';
 import Label from './Label';
 import Notch from './Notch';
 
-export const SliderScreen =  ({onValueChange, probability}: any) => {
+export const SliderScreen =  ({onValueChange}: any) => {
   // const [high, setHigh] = useState(100);
   const [floatingLabel, setFloatingLabel] = useState(false);
 
@@ -35,6 +35,7 @@ export const SliderScreen =  ({onValueChange, probability}: any) => {
           renderRailSelected={renderRailSelected}
           renderLabel={renderLabel}
           renderNotch={renderNotch}
+
           onValueChanged={onValueChange}
         />
         <View style={styles.horizontalContainer}>

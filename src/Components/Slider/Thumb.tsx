@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import { StyleSheet, Image} from 'react-native';
 import LogoImage from "../../assets/peach.png"
 
 const THUMB_RADIUS_HIGH = 20;
@@ -11,8 +11,7 @@ const Thumb = () => {
             source={LogoImage}
           />  
   )
-  
-  // <View style={name === 'high' ? styles.rootHigh : styles.rootLow} />);
+
 };
 
 const styles = StyleSheet.create({
