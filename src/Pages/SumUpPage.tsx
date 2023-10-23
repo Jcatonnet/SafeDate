@@ -14,7 +14,7 @@ import { IconMappingType } from "../utils/types";
 
 
 
-export const SumUpPage = () => {
+export const SumUpPage = ({navigation}: any) => {
     const formData = useSelector(selectFormData);
     const dateTimeStartFormated = dateFormat(formData.dateTimeStart);
     const dateTimeEndFormated = dateFormat(formData.dateTimeEnd)
@@ -31,14 +31,15 @@ const ICON_MAPPING: IconMappingType = {
     const activityIcon = ICON_MAPPING[formData.activityName];
     
     const handleSend = () => {
-      Linking.openURL(`https://web.whatsapp.com/send?phone=${formData.peachGuardPhone}&text=${encodeURI(whatsappMessage)}&app_absent=0`)
-        .then(() => {
-          console.log("WhatsApp Opened Successfully");
-        })
-        .catch((err) => {
-          alert('Error opening WhatsApp. Make sure it.');
-          console.error(err);
-        });
+      // Linking.openURL(`https://web.whatsapp.com/send?phone=${formData.peachGuardPhone}&text=${encodeURI(whatsappMessage)}&app_absent=0`)
+      //   .then(() => {
+      //     console.log("WhatsApp Opened Successfully");
+      //   })
+      //   .catch((err) => {
+      //     alert('Error opening WhatsApp. Make sure it.');
+      //     console.error(err);
+      //   });
+        navigation.navigate('MyDatePage');
     };
     
     return (
@@ -105,7 +106,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    marginBottom: 20,
   },
   text: {
     fontSize: 14,
