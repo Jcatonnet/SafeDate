@@ -8,13 +8,19 @@ import { ProbabilityPage } from '../Pages/ProbabilityPage';
 import { PeachGuardPage } from '../Pages/PeachGuardPage';
 import { SumUpPage } from '../Pages/SumUpPage';
 import { MyDatePage } from '../Pages/MyDatePage';
+import { SignUpPage } from '../Pages/SignUpPage';
+import { ChooseViewPage } from '../Pages/ChooseViewPage';
+import { EmailVerificationPage } from '../Pages/EmailVerificationPage';
 
 const Stack = createStackNavigator();
 
 function AppNavigator() {
   return (
-    <Stack.Navigator initialRouteName="DateTitle">
-      <Stack.Screen   options={{ title: 'Step 1 of 6' }} name="DateTitle" component={DateTitle} />
+    <Stack.Navigator initialRouteName="SignUpPage" screenOptions={{ headerShown: false }}>
+      <Stack.Screen   options={{ title: 'Step 1 of 6' }} name="SignUpPage" component={SignUpPage} />
+      <Stack.Screen   name="EmailVerificationPage" component={EmailVerificationPage} />
+      <Stack.Screen   name="ChooseView" component={ChooseViewPage} />
+      <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateTitle" component={DateTitle} />
       <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateMateName" component={DateMateName} />
       <Stack.Screen   options={{ title: 'Step 3 of 6' }} name="ActivityPage" component={ActivityPage} />
       <Stack.Screen   options={{ title: 'Step 4 of 6' }} name="DateTimePage" component={DateTimePage} />
