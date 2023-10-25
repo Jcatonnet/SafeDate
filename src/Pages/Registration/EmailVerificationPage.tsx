@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
-import EmailLogo from "../assets/gmail.png"
+import EmailLogo from "../../assets/gmail.png"
 
 export const EmailVerificationPage = ({ route, navigation } : any) => {
     const { user } = route.params;
