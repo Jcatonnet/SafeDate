@@ -4,7 +4,7 @@ import DateImage from '../assets/dating.png';
 import { useDispatch } from 'react-redux';
 import { setDateTitle } from '../utils/formDataSlice';
 
-export const DateTitle = ({ navigation }: any) => {
+export const DateTitlePage = ({ navigation }: any) => {
   const [dateTitle, setdateTitle] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 

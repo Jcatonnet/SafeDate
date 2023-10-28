@@ -1,9 +1,10 @@
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from "../../../fireBaseConfig"
+import { auth, db } from "../../../fireBaseConfig"
 import { useState } from "react";
 import { TextInput, TouchableOpacity, View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, Platform} from "react-native";
 import { isValidEmail } from '../../utils/validationForm';
 import PhoneNumberInput from "react-native-phone-number-input";
+import { ref, set } from 'firebase/database';
 
 export const SignUpPage = ({navigation} : any) => {
     const [userName, setUserName] = useState('');
@@ -18,33 +19,38 @@ export const SignUpPage = ({navigation} : any) => {
 
     const signUp = async (email: any, password: any) => {
       if (!isValidEmail(email)) {
-        setEmailError('Please enter a valid email.');
-        return;
+          setEmailError('Please enter a valid email.');
+          return;
       }
       if (password.length < 6) {
-        setPasswordError('Password must be at least 6 characters.');
-        return;
+          setPasswordError('Password must be at least 6 characters.');
+          return;
       }
       if (userName.length === 0) {
-        setNameError('Name cannot be empty.');
-        return;
+          setNameError('Name cannot be empty.');
+          return;
       }
-      createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("User registered successfully!");
-  
-        sendEmailVerification(user).then(() => {
+      try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+          console.log("User registered successfully!");
+
+      console.log("Setting user details in database...");
+          const userRef = ref(db, 'users/' + user.uid);
+          await set(userRef, {
+              name: userName,
+              phone: formattedPhoneValue
+          });
+          console.log("User details set in database!");
+
+          await sendEmailVerification(user);
           console.log("Verification email sent!");
           navigation.navigate('EmailVerificationPage', { user });
-        }).catch((error) => {
-          console.error("Error sending verification email:", error.message);
-        });
-        
-      })
-      .catch((error) => {
-        console.error("Error registering user:", error.message);
-      });
+      } catch (error: any) {
+        console.log("Error during signup");
+
+          console.error("Error during signup:", error.message);
+      }
   }
 
     return (

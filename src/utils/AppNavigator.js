@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { DateTitle } from '../Pages/DateTitlePage';
+import { DateTitlePage } from '../Pages/DateTitlePage';
 import { DateMateName } from '../Pages/DateMateNamePage';
 import { ActivityPage } from '../Pages/ActivityPage';
 import { DateTimePage } from '../Pages/DateTimePage';
@@ -22,7 +22,7 @@ function AppNavigator() {
       <Stack.Screen   name="SignUpPage" component={SignUpPage} />
       <Stack.Screen   name="EmailVerificationPage" component={EmailVerificationPage} />
       <Stack.Screen   name="ChooseViewPage" component={ChooseViewPage} />
-      <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateTitle" component={DateTitle} />
+      <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateTitlePage" component={DateTitlePage} />
       <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateMateName" component={DateMateName} />
       <Stack.Screen   options={{ title: 'Step 3 of 6' }} name="ActivityPage" component={ActivityPage} />
       <Stack.Screen   options={{ title: 'Step 4 of 6' }} name="DateTimePage" component={DateTimePage} />

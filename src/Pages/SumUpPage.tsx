@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image, TouchableOpacity, Linking } from "react-native"
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native"
 import { useSelector } from "react-redux";
 import { selectFormData } from "../utils/formDataSlice";
 import CocktailIcon from "../assets/cocktail.png"
@@ -10,7 +10,9 @@ import DateMateImage from '../assets/role-model.png';
 import ClockIcon from "../assets/chronometer.png"
 import LogoImage from "../assets/peach.png"
 import { dateFormat } from "../utils/dateTransformer";
-import { IconMappingType } from "../utils/types";
+import { FormDataState, IconMappingType } from "../utils/types";
+import { ref, set } from "firebase/database";
+import { db, auth } from '../../fireBaseConfig';
 
 
 
@@ -29,17 +31,26 @@ const ICON_MAPPING: IconMappingType = {
 };
 
     const activityIcon = ICON_MAPPING[formData.activityName];
+    const currentUser = auth.currentUser;
+    const userId = currentUser ? currentUser.uid : null;
+    
+    const saveFormData = async (userId: string, formData: FormDataState) => {
+      const userRef = ref(db, `users/${userId}/dates/${Date.now()}`);
+      set(userRef, formData).catch(error => {
+        console.error("Data could not be saved.", error);
+      });
+    };
+
     
     const handleSend = () => {
-      // Linking.openURL(`https://web.whatsapp.com/send?phone=${formData.peachGuardPhone}&text=${encodeURI(whatsappMessage)}&app_absent=0`)
-      //   .then(() => {
-      //     console.log("WhatsApp Opened Successfully");
-      //   })
-      //   .catch((err) => {
-      //     alert('Error opening WhatsApp. Make sure it.');
-      //     console.error(err);
-      //   });
-        navigation.navigate('MyDatePage');
+      if (userId) {
+          saveFormData(userId, formData);
+          navigation.navigate('MyDatePage');
+      } else {
+          // Handle the case when no user is authenticated
+          console.error("No user is authenticated.");
+      }      
+      navigation.navigate('MyDatePage');
     };
     
     return (
