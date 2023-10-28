@@ -47,7 +47,6 @@ const ICON_MAPPING: IconMappingType = {
           saveFormData(userId, formData);
           navigation.navigate('MyDatePage');
       } else {
-          // Handle the case when no user is authenticated
           console.error("No user is authenticated.");
       }      
       navigation.navigate('MyDatePage');

@@ -1,8 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import LogoImage from '../assets/peach.png';
+import { auth } from '../../fireBaseConfig';
 
-export const Header = () => {
+
+type HeaderProps = {
+  display: boolean;
+};
+
+export const Header = ({display}: HeaderProps) => {
+
+  const handleSignOut = async () => {
+    try {
+        await auth.signOut();
+        console.log('Signed out successfully');
+    } catch (error) {
+        console.error('Error signing out:', error);
+    }
+  }
+
     return (
       <View style={styles.header}>
           <Image
@@ -10,9 +26,15 @@ export const Header = () => {
             source={LogoImage}
           />           
           <Text style={styles.title}>SafeDate</Text>
-          <Text style={styles.logout}>Logout</Text>
+          {display ?
+          <TouchableOpacity onPress={handleSignOut}>
+           <Text style={styles.logout}>Logout</Text>
+          </TouchableOpacity> 
+      :  <Text style={styles.logout}>       </Text>
+}
       </View>
     );
+
 }
 
 const styles = StyleSheet.create({

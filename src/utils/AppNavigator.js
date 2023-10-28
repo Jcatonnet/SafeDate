@@ -15,12 +15,11 @@ import { SignInPage } from '../Pages/Registration/SignInPage';
 
 const Stack = createStackNavigator();
 
-function AppNavigator() {
+function AppNavigator({ isAuthenticated }) {
+  if (isAuthenticated) {
+
   return (
-    <Stack.Navigator initialRouteName="SignInPage" screenOptions={{ headerShown: false }}>
-      <Stack.Screen   name="SignInPage" component={SignInPage} />
-      <Stack.Screen   name="SignUpPage" component={SignUpPage} />
-      <Stack.Screen   name="EmailVerificationPage" component={EmailVerificationPage} />
+    <Stack.Navigator initialRouteName="ChooseViewPage" screenOptions={{ headerShown: false }}>
       <Stack.Screen   name="ChooseViewPage" component={ChooseViewPage} />
       <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateTitlePage" component={DateTitlePage} />
       <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateMateName" component={DateMateName} />
@@ -32,6 +31,16 @@ function AppNavigator() {
       <Stack.Screen   options={{ title: 'My date' }} name="MyDatePage" component={MyDatePage} />
     </Stack.Navigator>
   );
+  } else { 
+    return (
+    <Stack.Navigator initialRouteName="SignInPage" screenOptions={{ headerShown: false }}>
+      <Stack.Screen   name="SignInPage" component={SignInPage} />
+      <Stack.Screen   name="SignUpPage" component={SignUpPage} />
+      <Stack.Screen   name="EmailVerificationPage" component={EmailVerificationPage} />
+    </Stack.Navigator>
+    )
+
+  }
 }
 
 

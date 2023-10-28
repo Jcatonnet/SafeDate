@@ -39,10 +39,10 @@ export default function App() {
   return (
     <Provider store={store}>
     <View style={styles.container}>
-      <Header />
+      <Header display={isAuthenticated}/>
       <View style={styles.body}>
         <NavigationContainer theme={MyTheme}>
-          <AppNavigator />
+        <AppNavigator isAuthenticated={isAuthenticated} />
         </NavigationContainer>
       </View>
     </View>

@@ -63,7 +63,6 @@ export const MyDatePage = () => {
 
 const styles = StyleSheet.create({
     pageContainer: {
-        // alignItems: 'center',
         marginTop: 30
         
     },

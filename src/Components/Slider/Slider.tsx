@@ -8,7 +8,6 @@ import Label from './Label';
 import Notch from './Notch';
 
 export const SliderScreen =  ({onValueChange}: any) => {
-  // const [high, setHigh] = useState(100);
   const [floatingLabel, setFloatingLabel] = useState(false);
 
   const renderThumb = useCallback(() => <Thumb/>,[]);
@@ -16,9 +15,7 @@ export const SliderScreen =  ({onValueChange}: any) => {
   const renderRailSelected = useCallback(() => <RailSelected />, []);
   const renderLabel = useCallback((value: number) => <Label text={value} />, []);
   const renderNotch = useCallback(() => <Notch />, []);
-  // const handleValueChange = useCallback((lowValue: number, highValue: number) => {
-  //   setHigh(highValue);
-  // }, []);
+
 
   return (
 
