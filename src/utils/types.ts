@@ -23,6 +23,9 @@ export type ActivityButtonProps = {
     handlePress: (event: GestureResponderEvent) => void;
 }
 
+export type DateStatus = "ongoing" | "finished" | "";
+
+
 export interface FormDataState {
     dateTitle: string;
     dateMateName: string;
@@ -32,6 +35,7 @@ export interface FormDataState {
     probability: number;
     peachGuardName: string;
     peachGuardPhone: string
+    status: DateStatus
   }
   
   export interface RootState {

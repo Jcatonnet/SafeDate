@@ -32,7 +32,6 @@ export const SliderScreen =  ({onValueChange}: any) => {
           renderRailSelected={renderRailSelected}
           renderLabel={renderLabel}
           renderNotch={renderNotch}
-
           onValueChanged={onValueChange}
         />
         <View style={styles.horizontalContainer}>

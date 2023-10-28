@@ -4,8 +4,9 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/utils/AppNavigator';
 import { Provider } from 'react-redux';
 import { store } from './src/utils/store';
-import { auth } from './fireBaseConfig';
+import { auth, db } from './fireBaseConfig';
 import { useState, useEffect } from 'react';
+import { get, ref } from "firebase/database";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -17,14 +18,27 @@ const MyTheme = {
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasOngoingDate, setHasOngoingDate] = useState(false);
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async(user) => {
       if (user) {
         setIsAuthenticated(true);
+        const userRef = ref(db, `users/${user.uid}/dates`);
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const dates = snapshot.val();
+          for (let key in dates) {
+            if (dates[key].status === "ongoing") {
+              setHasOngoingDate(true);
+              break;
+            }
+          }
+        }
       } else {
         setIsAuthenticated(false);
+        setHasOngoingDate(false);
       }
       if (initializing) setInitializing(false);
     });
@@ -42,7 +56,7 @@ export default function App() {
       <Header display={isAuthenticated}/>
       <View style={styles.body}>
         <NavigationContainer theme={MyTheme}>
-        <AppNavigator isAuthenticated={isAuthenticated} />
+        <AppNavigator isAuthenticated={isAuthenticated} hasOngoingDate={hasOngoingDate} />
         </NavigationContainer>
       </View>
     </View>

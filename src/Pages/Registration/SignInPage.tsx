@@ -2,13 +2,16 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../../../fireBaseConfig";
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { ActivityIndicator } from 'react-native';
 
 export const SignInPage = ({navigation} : any) => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const signIn = async (email: string, password: string) => {
+        setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -18,6 +21,9 @@ export const SignInPage = ({navigation} : any) => {
         .catch((error) => {
             console.error("Error signing in:", error.message);
             setErrorMessage("The user name or password are incorrect.");
+        })
+        .finally(() => {
+            setIsLoading(false)
         });
     }
 
@@ -48,9 +54,14 @@ export const SignInPage = ({navigation} : any) => {
                   <Text style={styles.linkText}>No Account? Create your account here 🍑</Text>
                 </TouchableOpacity>
             <TouchableOpacity
+                disabled={isLoading}
                 onPress={() => signIn(userEmail, userPassword)} 
                 style={styles.button}>
-                <Text style={styles.buttonText}>Sign In</Text>
+                {isLoading ? (
+                    <ActivityIndicator size="small" color="white" />
+                ) : (
+                    <Text style={styles.buttonText}>Sign In</Text>
+                )}
             </TouchableOpacity>
         </View>
     )

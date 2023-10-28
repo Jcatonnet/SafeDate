@@ -14,13 +14,10 @@ import { FormDataState, IconMappingType } from "../utils/types";
 import { ref, set } from "firebase/database";
 import { db, auth } from '../../fireBaseConfig';
 
-
-
 export const SumUpPage = ({navigation}: any) => {
     const formData = useSelector(selectFormData);
     const dateTimeStartFormated = dateFormat(formData.dateTimeStart);
     const dateTimeEndFormated = dateFormat(formData.dateTimeEnd)
-    const whatsappMessage = 'test whatsapp de bae poour bae'
 
 const ICON_MAPPING: IconMappingType = {
     "Meet at a bar/restaurant": CocktailIcon,
@@ -42,15 +39,20 @@ const ICON_MAPPING: IconMappingType = {
     };
 
     
-    const handleSend = () => {
+    const handleSend = async () => {
       if (userId) {
-          saveFormData(userId, formData);
+        try {
+          await saveFormData(userId, formData);
           navigation.navigate('MyDatePage');
+        } catch (error) {
+          console.error("An error occurred while saving form data: ", error);
+        }
       } else {
-          console.error("No user is authenticated.");
+        console.error("No user is authenticated.");
+        navigation.navigate('MyDatePage');
       }      
-      navigation.navigate('MyDatePage');
     };
+    
     
     return (
       <View style={styles.pageContainer}>

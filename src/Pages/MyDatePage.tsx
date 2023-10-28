@@ -1,24 +1,23 @@
 import { View, StyleSheet, Text, Image, TouchableOpacity, Linking, ScrollView } from "react-native"
 import { useDispatch, useSelector } from "react-redux";
 import { selectFormData, setEndTime, setProbability } from "../utils/formDataSlice";
-import ClockIcon from "../assets/chronometer.png"
 import { dateFormat } from "../utils/dateTransformer";
 import { SliderScreen } from "../Components/Slider/Slider";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AppDispatch } from "../utils/store";
-
+import { ref, query, orderByChild, equalTo, onValue, off } from 'firebase/database';
+import { db } from "../../fireBaseConfig";
+import { FormDataState } from "../utils/types";
 
 
 export const MyDatePage = () => {
   const formData = useSelector(selectFormData);
+  const [dateData, setDateData] = useState<FormDataState | null > (null);
+  const userId = "your_user_id"; 
   const [selectedProbility, setSelectedProbability] = useState<number>(formData.probability)
   const [dateTimeEnd, setDateTimeEnd] = useState<string>(formData.dateTimeEnd);
 
   const dispatch: AppDispatch = useDispatch();
-
-    const dateTimeStartFormated = dateFormat(formData.dateTimeStart);
-    const dateTimeEndFormated = dateFormat(formData.dateTimeEnd)
-    const whatsappMessage = 'test whatsapp de bae poour bae'
     
     const handleChange = useCallback((lowValue: number) => {
       setSelectedProbability(lowValue);
@@ -33,6 +32,25 @@ export const MyDatePage = () => {
       dispatch(setEndTime(newDate))
     }
 
+    useEffect(() => {
+      const dateRef = ref(db, `users/${userId}/dates`);
+      const ongoingDateQuery = query(dateRef, orderByChild("status"), equalTo("ongoing"));
+      
+      const listener = onValue(ongoingDateQuery, (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const key = Object.keys(data)[0];
+          setDateData(data[key]);
+          console.log(data[key]);
+        }
+      });
+    
+      return () => {
+        off(ongoingDateQuery, 'value', listener);
+      };
+    }, []);
+    
+
     return (
       <ScrollView style={styles.pageContainer} contentContainerStyle={{ alignItems: 'center' }}>
       <Text style={styles.subtitle}> 🍑 We hope this is going well !🔥</Text>
@@ -40,9 +58,10 @@ export const MyDatePage = () => {
         <Text style={styles.info}>You can update some info of your current date. We will send a whatsapp message to your peach guard with new information</Text>
 
         < View style={styles.containerSumUp}>
-          <SliderScreen onValueChange={handleChange}/>
+          <SliderScreen initialValue={dateData?.probability} onValueChange={handleChange}/>
           <View style={styles.sumup}>
-            <Text style={styles.text}>Date end at: {dateTimeEndFormated}</Text>
+            <Text style={styles.text}>Date end at: {dateData ? dateFormat(dateData.dateTimeEnd) : "Loading..."}
+            </Text>
             <TouchableOpacity style={styles.button} onPress={handleAddTime}>
               <Text style={styles.buttonText}>Add +1h</Text>
             </TouchableOpacity>

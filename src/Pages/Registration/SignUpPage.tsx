@@ -5,6 +5,7 @@ import { TextInput, TouchableOpacity, View, Text, StyleSheet, ScrollView, Keyboa
 import { isValidEmail } from '../../utils/validationForm';
 import PhoneNumberInput from "react-native-phone-number-input";
 import { ref, set } from 'firebase/database';
+import { ActivityIndicator } from 'react-native';
 
 export const SignUpPage = ({navigation} : any) => {
     const [userName, setUserName] = useState('');
@@ -12,6 +13,7 @@ export const SignUpPage = ({navigation} : any) => {
     const [userPassword, setUserPassword] = useState('');
     const [userPhone, setUserPhone] = useState('');
     const [formattedPhoneValue, setFormattedPhoneValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -30,6 +32,7 @@ export const SignUpPage = ({navigation} : any) => {
           setNameError('Name cannot be empty.');
           return;
       }
+      setIsLoading(true);
       try {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
@@ -50,7 +53,9 @@ export const SignUpPage = ({navigation} : any) => {
         console.log("Error during signup");
 
           console.error("Error during signup:", error.message);
-      }
+      } finally {
+        setIsLoading(false);
+    }
   }
 
     return (
@@ -126,9 +131,15 @@ export const SignUpPage = ({navigation} : any) => {
               />
            </View>
             <TouchableOpacity
-                onPress={() => signUp(userEmail, userPassword)} style={styles.button}>
+              disabled={isLoading} 
+              onPress={() => signUp(userEmail, userPassword)} 
+              style={styles.button}>
+              {isLoading ? (
+                <ActivityIndicator size="small" color="white" />
+                ) : (
                 <Text style={styles.buttonText}>Register</Text>
-            </TouchableOpacity>
+                )}           
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     )

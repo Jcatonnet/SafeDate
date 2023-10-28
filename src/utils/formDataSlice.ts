@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ActivityName, FormDataState, RootState } from './types';
+import { ActivityName, DateStatus, FormDataState, RootState } from './types';
 
 const initialState: FormDataState = {
   dateTitle: '',
@@ -9,7 +9,8 @@ const initialState: FormDataState = {
   activityName: '',
   probability: 0,
   peachGuardName: '',
-  peachGuardPhone: ''
+  peachGuardPhone: '',
+  status: ''
 };
 
 export const formDataSlice = createSlice({
@@ -40,10 +41,13 @@ export const formDataSlice = createSlice({
     setPeachGuardPhone: (state: FormDataState, action: PayloadAction<string>) => {
       state.peachGuardPhone = action.payload;
     },
+    setDateStatus: (state: FormDataState, action: PayloadAction<DateStatus>) => {
+      state.status = action.payload;
+    },
   }
 });
 
-export const { setDateTitle, setDateMateName, setActivityName, setStartTime, setEndTime, setProbability, setPeachGuard, setPeachGuardPhone } = formDataSlice.actions;
+export const { setDateTitle, setDateMateName, setActivityName, setStartTime, setEndTime, setProbability, setPeachGuard, setPeachGuardPhone, setDateStatus } = formDataSlice.actions;
 
 export const selectFormData = (state: RootState) => state.formData;
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import PeachGuardIcon from '../assets/security-guard.png';
 import { useDispatch } from 'react-redux';
-import { setPeachGuard, setPeachGuardPhone} from '../utils/formDataSlice';
+import { setDateStatus, setPeachGuard, setPeachGuardPhone} from '../utils/formDataSlice';
 
 export const PeachGuardPage = ({navigation}: any) => {
   const [peachGuardName, setPeachGuardName] = useState('');
@@ -18,6 +18,7 @@ export const PeachGuardPage = ({navigation}: any) => {
     }
     dispatch(setPeachGuard(peachGuardName));
     dispatch(setPeachGuardPhone(peachGuardNumber));
+    dispatch(setDateStatus("ongoing"));
     navigation.navigate("SumUpPage")
 
   };
