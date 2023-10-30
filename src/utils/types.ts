@@ -27,6 +27,7 @@ export type DateStatus = "ongoing" | "finished" | "";
 
 
 export interface FormDataState {
+    id: string
     dateTitle: string;
     dateMateName: string;
     dateTimeStart: string;

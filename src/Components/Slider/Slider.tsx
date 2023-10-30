@@ -7,7 +7,7 @@ import RailSelected from './RailSelected';
 import Label from './Label';
 import Notch from './Notch';
 
-export const SliderScreen =  ({onValueChange}: any) => {
+export const SliderScreen =  ({value, onValueChange}: any) => {
   const [floatingLabel, setFloatingLabel] = useState(false);
 
   const renderThumb = useCallback(() => <Thumb/>,[]);
@@ -33,6 +33,7 @@ export const SliderScreen =  ({onValueChange}: any) => {
           renderLabel={renderLabel}
           renderNotch={renderNotch}
           onValueChanged={onValueChange}
+          low={value}
         />
         <View style={styles.horizontalContainer}>
           <Text style={styles.valueText}>{0}</Text>

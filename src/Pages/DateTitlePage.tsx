@@ -3,6 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import DateImage from '../assets/dating.png';
 import { useDispatch } from 'react-redux';
 import { setDateTitle } from '../utils/formDataSlice';
+import { setId } from '../utils/formDataSlice';
+import { ref, push } from "firebase/database";
+import { db, auth } from '../../fireBaseConfig';
 
 export const DateTitlePage = ({ navigation }: any) => {
   const [dateTitle, setdateTitle] = useState('');
@@ -14,6 +17,20 @@ export const DateTitlePage = ({ navigation }: any) => {
     if (dateTitle.trim() === '') {
       setErrorMessage('Please enter a title for your date.');
       return;
+    }
+    const currentUser = auth.currentUser;
+    const userId = currentUser ? currentUser.uid : null;
+    if (userId) {
+        const newDateRef = ref(db, `users/${userId}/dates`);
+        const dateIdRef = push(newDateRef);
+
+        if (dateIdRef.key) {
+            dispatch(setId(dateIdRef.key));
+        } else {
+            console.error("Failed to generate a unique date ID.");
+        }
+    } else {
+        console.error("No user is authenticated.");
     }
     dispatch(setDateTitle(dateTitle));
     navigation.navigate('DateMateName');

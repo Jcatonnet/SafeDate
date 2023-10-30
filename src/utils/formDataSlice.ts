@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ActivityName, DateStatus, FormDataState, RootState } from './types';
 
 const initialState: FormDataState = {
+  id: '',
   dateTitle: '',
   dateMateName: '',
   dateTimeStart: '',
@@ -17,6 +18,9 @@ export const formDataSlice = createSlice({
   name: 'formData',
   initialState: initialState,
   reducers: {
+    setId: (state: FormDataState, action: PayloadAction<string>) => {
+      state.id = action.payload;
+  },
     setDateTitle: (state: FormDataState, action: PayloadAction<string>) => {
       state.dateTitle = action.payload;
     },
@@ -47,7 +51,7 @@ export const formDataSlice = createSlice({
   }
 });
 
-export const { setDateTitle, setDateMateName, setActivityName, setStartTime, setEndTime, setProbability, setPeachGuard, setPeachGuardPhone, setDateStatus } = formDataSlice.actions;
+export const { setId, setDateTitle, setDateMateName, setActivityName, setStartTime, setEndTime, setProbability, setPeachGuard, setPeachGuardPhone, setDateStatus } = formDataSlice.actions;
 
 export const selectFormData = (state: RootState) => state.formData;
 

@@ -32,7 +32,7 @@ const ICON_MAPPING: IconMappingType = {
     const userId = currentUser ? currentUser.uid : null;
     
     const saveFormData = async (userId: string, formData: FormDataState) => {
-      const userRef = ref(db, `users/${userId}/dates/${Date.now()}`);
+      const userRef = ref(db, `users/${userId}/dates/${formData.id}`);
       set(userRef, formData).catch(error => {
         console.error("Data could not be saved.", error);
       });

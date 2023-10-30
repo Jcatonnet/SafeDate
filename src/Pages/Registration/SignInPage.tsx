@@ -3,6 +3,7 @@ import { auth } from "../../../fireBaseConfig";
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { ActivityIndicator } from 'react-native';
+import { hasOngoinDates } from '../../utils/data';
 
 export const SignInPage = ({navigation} : any) => {
     const [userEmail, setUserEmail] = useState('');
@@ -13,10 +14,14 @@ export const SignInPage = ({navigation} : any) => {
     const signIn = async (email: string, password: string) => {
         setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
             const user = userCredential.user;
             console.log("User signed in successfully!");
-            navigation.navigate('ChooseViewPage');
+            if (await hasOngoinDates(user.uid)) {
+                navigation.navigate('MyDatePage');
+            } else {
+                navigation.navigate('ChooseViewPage');
+            }
         })
         .catch((error) => {
             console.error("Error signing in:", error.message);

@@ -5,19 +5,34 @@ import { dateFormat } from "../utils/dateTransformer";
 import { SliderScreen } from "../Components/Slider/Slider";
 import { useCallback, useEffect, useState } from "react";
 import { AppDispatch } from "../utils/store";
-import { ref, query, orderByChild, equalTo, onValue, off } from 'firebase/database';
-import { db } from "../../fireBaseConfig";
+import { ref, query, orderByChild, equalTo, onValue, off, set } from 'firebase/database';
+import { auth, db } from "../../fireBaseConfig";
 import { FormDataState } from "../utils/types";
+import _ from 'lodash';
 
 
 export const MyDatePage = () => {
   const formData = useSelector(selectFormData);
   const [dateData, setDateData] = useState<FormDataState | null > (null);
-  const userId = "your_user_id"; 
-  const [selectedProbility, setSelectedProbability] = useState<number>(formData.probability)
+  const currentUser = auth.currentUser;
+  const userId = currentUser ? currentUser.uid : null;
+  const [selectedProbility, setSelectedProbability] = useState<number>(dateData ? dateData.probability : 0)
   const [dateTimeEnd, setDateTimeEnd] = useState<string>(formData.dateTimeEnd);
 
   const dispatch: AppDispatch = useDispatch();
+
+  const updateProbabilityInFirebase = useCallback(
+    _.debounce(async (probability: number) => {
+      if (userId && dateData) {
+        const dateRef = ref(db, `users/${userId}/dates/${dateData.id}`);
+        await set(dateRef, {
+            ...dateData, 
+            probability: probability
+        });
+      }
+    }, 1000),
+    [userId, dateData]
+  );
     
     const handleChange = useCallback((lowValue: number) => {
       setSelectedProbability(lowValue);
@@ -32,6 +47,14 @@ export const MyDatePage = () => {
       dispatch(setEndTime(newDate))
     }
 
+
+    useEffect(() => {
+      updateProbabilityInFirebase(selectedProbility);
+      return () => {
+        updateProbabilityInFirebase.cancel();
+      };
+    }, [selectedProbility, updateProbabilityInFirebase]);
+
     useEffect(() => {
       const dateRef = ref(db, `users/${userId}/dates`);
       const ongoingDateQuery = query(dateRef, orderByChild("status"), equalTo("ongoing"));
@@ -41,7 +64,7 @@ export const MyDatePage = () => {
           const data = snapshot.val();
           const key = Object.keys(data)[0];
           setDateData(data[key]);
-          console.log(data[key]);
+          setSelectedProbability(data[key].probability);
         }
       });
     
@@ -58,7 +81,7 @@ export const MyDatePage = () => {
         <Text style={styles.info}>You can update some info of your current date. We will send a whatsapp message to your peach guard with new information</Text>
 
         < View style={styles.containerSumUp}>
-          <SliderScreen initialValue={dateData?.probability} onValueChange={handleChange}/>
+        <SliderScreen value={selectedProbility} onValueChange={handleChange}/>
           <View style={styles.sumup}>
             <Text style={styles.text}>Date end at: {dateData ? dateFormat(dateData.dateTimeEnd) : "Loading..."}
             </Text>

@@ -15,11 +15,11 @@ import { SignInPage } from '../Pages/Registration/SignInPage';
 
 const Stack = createStackNavigator();
 
-function AppNavigator({ isAuthenticated, hasOngoingDate }) {
+function AppNavigator({ isAuthenticated }) {
   if (isAuthenticated) {
     return (
       <Stack.Navigator 
-        initialRouteName={hasOngoingDate ? "MyDatePage" : "ChooseViewPage"}
+        initialRouteName={"ChooseViewPage"}
         screenOptions={{ headerShown: false }}>
         <Stack.Screen   name="ChooseViewPage" component={ChooseViewPage} />
         <Stack.Screen   options={{ title: 'Step 2 of 6' }} name="DateTitlePage" component={DateTitlePage} />
