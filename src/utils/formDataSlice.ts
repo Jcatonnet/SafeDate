@@ -9,8 +9,10 @@ const initialState: FormDataState = {
   dateTimeEnd: '',
   activityName: '',
   probability: 0,
-  peachGuardName: '',
-  peachGuardPhone: '',
+  peachGuard: {
+    name: '',
+    phone: ''
+  },
   status: ''
 };
 
@@ -20,7 +22,7 @@ export const formDataSlice = createSlice({
   reducers: {
     setId: (state: FormDataState, action: PayloadAction<string>) => {
       state.id = action.payload;
-  },
+    },
     setDateTitle: (state: FormDataState, action: PayloadAction<string>) => {
       state.dateTitle = action.payload;
     },
@@ -39,11 +41,11 @@ export const formDataSlice = createSlice({
     setProbability: (state: FormDataState, action: PayloadAction<number>) => {
       state.probability = action.payload;
     },
-    setPeachGuard: (state: FormDataState, action: PayloadAction<string>) => {
-      state.peachGuardName = action.payload;
+    setPeachGuardName: (state: FormDataState, action: PayloadAction<string>) => {
+      state.peachGuard.name = action.payload;
     },
     setPeachGuardPhone: (state: FormDataState, action: PayloadAction<string>) => {
-      state.peachGuardPhone = action.payload;
+      state.peachGuard.phone = action.payload;
     },
     setDateStatus: (state: FormDataState, action: PayloadAction<DateStatus>) => {
       state.status = action.payload;
@@ -51,7 +53,10 @@ export const formDataSlice = createSlice({
   }
 });
 
-export const { setId, setDateTitle, setDateMateName, setActivityName, setStartTime, setEndTime, setProbability, setPeachGuard, setPeachGuardPhone, setDateStatus } = formDataSlice.actions;
+export const { 
+    setId, setDateTitle, setDateMateName, setActivityName, setStartTime, 
+    setEndTime, setProbability, setPeachGuardName, setPeachGuardPhone, setDateStatus 
+} = formDataSlice.actions;
 
 export const selectFormData = (state: RootState) => state.formData;
 

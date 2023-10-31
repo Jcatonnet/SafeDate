@@ -61,7 +61,7 @@ const ICON_MAPPING: IconMappingType = {
         < View style={styles.containerSumUp}>
         <View style={styles.sumup}>
             <Image style={styles.icon} source={PeachGuardIcon}></Image>
-            <Text style={styles.text} >Peach guard: {formData.peachGuardName}</Text>
+            <Text style={styles.text} >Peach guard: {formData.peachGuard.name}</Text>
         </View>
         <View style={styles.sumup}>
             <Image style={styles.icon} source={DateMateImage}></Image>

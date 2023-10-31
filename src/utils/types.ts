@@ -25,6 +25,11 @@ export type ActivityButtonProps = {
 
 export type DateStatus = "ongoing" | "finished" | "";
 
+export type PeachGuard = {
+  name : string,
+  phone: string
+}
+
 
 export interface FormDataState {
     id: string
@@ -34,8 +39,7 @@ export interface FormDataState {
     dateTimeEnd: string ;
     activityName: ActivityName; 
     probability: number;
-    peachGuardName: string;
-    peachGuardPhone: string
+    peachGuard: PeachGuard
     status: DateStatus
   }
   

@@ -2,25 +2,23 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import PeachGuardIcon from '../assets/security-guard.png';
 import { useDispatch } from 'react-redux';
-import { setDateStatus, setPeachGuard, setPeachGuardPhone} from '../utils/formDataSlice';
+import { setDateStatus, setPeachGuardName, setPeachGuardPhone} from '../utils/formDataSlice';
 
 export const PeachGuardPage = ({navigation}: any) => {
-  const [peachGuardName, setPeachGuardName] = useState('');
+  const [peachGuardName, setPeachGuardNameState] = useState('');
   const [peachGuardNumber, setPeachGuardNumber] = useState('')
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const dispatch = useDispatch();
-
 
   const handleNext = () => {
     if (peachGuardName.trim() === '') {
       setErrorMessage('Please indicate your peach guard\'s name');
       return;
     }
-    dispatch(setPeachGuard(peachGuardName));
+    dispatch(setPeachGuardName(peachGuardName));
     dispatch(setPeachGuardPhone(peachGuardNumber));
     dispatch(setDateStatus("ongoing"));
     navigation.navigate("SumUpPage")
-
   };
 
   return (
@@ -29,7 +27,7 @@ export const PeachGuardPage = ({navigation}: any) => {
       <TextInput
         value={peachGuardName}
         onChangeText={(text) => {
-          setPeachGuardName(text);
+          setPeachGuardNameState(text);
           setErrorMessage(null);
         }}
         placeholder="Select your peach guard"
