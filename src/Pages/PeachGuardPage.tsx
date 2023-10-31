@@ -22,7 +22,6 @@ export const PeachGuardPage = ({navigation}: any) => {
     navigation.navigate("SumUpPage")
 
   };
-  
 
   return (
     <View style={styles.pageContainer}>
@@ -60,7 +59,7 @@ export const PeachGuardPage = ({navigation}: any) => {
 const styles = StyleSheet.create({
     pageContainer: {
         alignItems: 'center',
-        marginTop: 30        
+        marginTop: 30,
     },
   subtitle: {
     fontSize: 16,

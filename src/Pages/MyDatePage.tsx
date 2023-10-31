@@ -5,7 +5,7 @@ import { dateFormat } from "../utils/dateTransformer";
 import { SliderScreen } from "../Components/Slider/Slider";
 import { useCallback, useEffect, useState } from "react";
 import { AppDispatch } from "../utils/store";
-import { ref, query, orderByChild, equalTo, onValue, off, set } from 'firebase/database';
+import { ref, query, orderByChild, equalTo, onValue, off, set, update } from 'firebase/database';
 import { auth, db } from "../../fireBaseConfig";
 import { FormDataState } from "../utils/types";
 import _ from 'lodash';
@@ -17,7 +17,7 @@ export const MyDatePage = () => {
   const currentUser = auth.currentUser;
   const userId = currentUser ? currentUser.uid : null;
   const [selectedProbility, setSelectedProbability] = useState<number>(dateData ? dateData.probability : 0)
-  const [dateTimeEnd, setDateTimeEnd] = useState<string>(formData.dateTimeEnd);
+  const [dateTimeEnd, setDateTimeEnd] = useState<string>(dateData? dateData.dateTimeEnd: '');
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -39,14 +39,24 @@ export const MyDatePage = () => {
       dispatch(setProbability(lowValue));
     }, [dispatch]);
     
-    const handleAddTime = () => {
-      const date = new Date(dateTimeEnd);
-      date.setHours(date.getHours() + 1)
-      const newDate = date.toISOString();
-      setDateTimeEnd(newDate)
-      dispatch(setEndTime(newDate))
-    }
-
+    const handleAddTime = async () => {
+      try {
+          const date = new Date(dateTimeEnd);
+          date.setHours(date.getHours() + 1)
+          const newDateTimeEnd = date.toISOString();
+          setDateTimeEnd(newDateTimeEnd)
+          dispatch(setEndTime(newDateTimeEnd))
+          
+          if (userId && dateData) {
+              const dateRef = ref(db, `users/${userId}/dates/${dateData.id}`);
+              await update(dateRef, {
+                  dateTimeEnd: newDateTimeEnd
+              });
+          }
+      } catch (error) {
+          console.error("Failed to update dateTimeEnd:", error);
+      }
+  }
 
     useEffect(() => {
       updateProbabilityInFirebase(selectedProbility);
@@ -65,6 +75,7 @@ export const MyDatePage = () => {
           const key = Object.keys(data)[0];
           setDateData(data[key]);
           setSelectedProbability(data[key].probability);
+          setDateTimeEnd(data[key].dateTimeEnd);
         }
       });
     
@@ -78,7 +89,7 @@ export const MyDatePage = () => {
       <ScrollView style={styles.pageContainer} contentContainerStyle={{ alignItems: 'center' }}>
       <Text style={styles.subtitle}> 🍑 We hope this is going well !🔥</Text>
 
-        <Text style={styles.info}>You can update some info of your current date. We will send a whatsapp message to your peach guard with new information</Text>
+        <Text style={styles.info}>You can update some info of your current date. We will send a notification to your peach guard with new information</Text>
 
         < View style={styles.containerSumUp}>
         <SliderScreen value={selectedProbility} onValueChange={handleChange}/>
